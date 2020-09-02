@@ -1,4 +1,6 @@
 @model IEnumerable<YardView.Models.Books>
+@model YardView.Models.BookGenreViewModel
+@model YardView.Models.BookPublishDateViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -11,6 +13,12 @@
 </p>
 <form asp-controller="Books" asp-action="Index" method="get">
     <p>
+        <select asp-for="BookGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+        <select asp-for="BookPublishDate" asp-items="Model.PublishDates">
+            <option value="">All</option>
+        </select>
         Title: <input type="text" name="SearchString">
         <input type="submit" value="Filter" />
     </p>
@@ -19,22 +27,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Books[0]Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Author)
+                @Html.DisplayNameFor(model => model.Books[0]Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.Books[0]Genre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishDate)
+                @Html.DisplayNameFor(model => model.Books[0]PublishDate)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Books) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

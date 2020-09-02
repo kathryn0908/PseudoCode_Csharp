@@ -2,20 +2,60 @@ namespace YardView.Controllers
 {
     public class BooksController : Controller
     {
-       public async Task<IActionResult> Index(string searchString)
+       public async Task<IActionResult> Index(string BookGenre, string BookPublishDate, string searchString)
         {
-            var books = from m in _context.Book
+   
+            IQueryable<string> genreQuery = from m in _context.Book
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            IQueryable<string> publishdateQuery = from m in _context.Book
+                                            orderby m.PublishDate
+                                            select m.PublishDate;
+
+            var books = from m in _context.Books
                         select m;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 books = books.Where(s => s.Title.Contains(searchString));
             }
 
-            return View(await books.ToListAsync());
+            if (!string.IsNullOrEmpty(bookGenre))
+            {
+                {
+                    books = books.Where(x => x.Genre == bookGenre);
+                }
+
+                var bookGenreVM = new BookGenreViewModel
+                {
+                    Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                    Books = await books.ToListAsync()
+                };
+
+                return View(bookGenreVM);
+
+            }
+            //Added additional curly braces for return, not sure if correct syntax examples only showed 1 filter
+           
+
+            if (!string.IsNullOrEmpty(bookPublishDate))
+            {
+                {
+                    books = books.Where(x => x.PublishDate == bookPublishDate);
+                }
+
+                var bookPublishDateVM = new BookPublishDateViewModel
+                {
+                    PublishDates = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                    Books = await books.ToListAsync()
+                };
+
+                return View(bookPublishDateVM);
+            }
+           
         }
 
-        // GET: VirusData/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +73,6 @@ namespace YardView.Controllers
             return View(book);
         }
 
-        // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
