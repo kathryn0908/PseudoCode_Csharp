@@ -21,12 +21,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Password)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Book)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CheckoutDate)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,12 +35,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book)
-            </td>
-             <td>
-                @Html.DisplayFor(modelItem => item.CheckoutDate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
