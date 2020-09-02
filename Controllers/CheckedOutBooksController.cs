@@ -1,13 +1,13 @@
 namespace YardView.Controllers
 {
-    public class UserController : Controller
+    public class CheckedOutBooksController : Controller
     {
        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-       
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -15,17 +15,17 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var checkedoutBook = await _context.CheckedOutBooks
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (checkedoutBook == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(checkedoutBook);
         }
 
-  
+       
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -33,20 +33,20 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var checkedoutBook = await _context.CheckedOutBooks.FindAsync(id);
+            if (checkedoutBook == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(checkedoutBook);
         }
 
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,Password")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,UserId,Book,User,CheckoutDate")] CheckedOutBooks checkedoutBook)
         {
-            if (id != user.Id)
+            if (id != checkedoutBook.Id)
             {
                 return NotFound();
             }
@@ -55,12 +55,12 @@ namespace YardView.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(checkedoutBook);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserExists(checkedoutBook.Id))
                     {
                         return NotFound();
                     }
@@ -71,12 +71,12 @@ namespace YardView.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(checkedoutBook);
         }
         
     private readonly YardViewContext _context;
 
-        public UserController(YardViewContext context)
+        public CheckedOutBooksController(YardViewContext context)
         {
             _context = context;
         }
