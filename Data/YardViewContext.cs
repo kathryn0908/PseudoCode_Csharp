@@ -7,8 +7,8 @@ namespace YardView.Data
         {
         }
 
-        public DbSet<Books> Book { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<CheckedOutBooks> CheckedOutBook { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<CheckedOutBook> CheckedOutBooks { get; set; }
     }
 }

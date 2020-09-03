@@ -24,7 +24,27 @@ namespace YardView.Controllers
 
             return View(checkedoutBook);
         }
-
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "BookId,UserId,Book,User,CheckoutDate")] CheckedOutBook checkedoutBook)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.CheckedOutBook.Add(checkedoutBook);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(checkedoutBook);
+        }
        
         public async Task<IActionResult> Edit(int? id)
         {

@@ -25,6 +25,27 @@ namespace YardView.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Username,Email,Password")] User user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.User.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(user);
+        }
+
   
         public async Task<IActionResult> Edit(int? id)
         {
@@ -44,7 +65,7 @@ namespace YardView.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Email,Password")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Username,Email,Password")] User user)
         {
             if (id != user.Id)
             {

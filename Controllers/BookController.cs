@@ -73,6 +73,27 @@ namespace YardView.Controllers
             return View(book);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Title,Author,Genre")] Book book)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Book.Add(book);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(book);
+        }
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,7 +112,7 @@ namespace YardView.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Genre")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Author,Genre")] Book book)
         {
             if (id != book.Id)
             {
