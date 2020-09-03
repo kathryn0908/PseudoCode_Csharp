@@ -73,6 +73,33 @@ namespace YardView.Controllers
             }
             return View(checkedoutBook);
         }
+            // GET: /Delete/id
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var checkedoutBook = await _context.CheckedOutBook
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (checkedoutBook == null)
+            {
+                return NotFound();
+            }
+
+            return View(checkedoutBook);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var checkedoutBook = await _context.CheckedOutBook.FindAsync(id);
+            _context.CheckedOutBook.Remove(checkedoutBook);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         
     private readonly YardViewContext _context;
 

@@ -13,7 +13,7 @@ namespace YardView.Controllers
                                             orderby m.PublishDate
                                             select m.PublishDate;
 
-            var books = from m in _context.Books
+            var books = from m in _context.Book
                         select m;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -63,7 +63,7 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
+            var book = await _context.Book
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
@@ -80,18 +80,18 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var book = await _context.Book.FindAsync(id);
+            if (book == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(book);
         }
 
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Genre")] Books book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Genre")] Book book)
         {
             if (id != book.Id)
             {
@@ -107,7 +107,7 @@ namespace YardView.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BooksExists(book.Id))
+                    if (!BookExists(book.Id))
                     {
                         return NotFound();
                     }
@@ -119,6 +119,32 @@ namespace YardView.Controllers
                 return RedirectToAction("Index");
             }
             return View(book);
+        }
+      public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Book
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var book = await _context.Book.FindAsync(id);
+            _context.Book.Remove(book);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
         
     private readonly YardViewContext _context;
