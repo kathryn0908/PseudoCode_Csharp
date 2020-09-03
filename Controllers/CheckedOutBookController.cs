@@ -1,6 +1,6 @@
 namespace YardView.Controllers
 {
-    public class CheckedOutBooksController : Controller
+    public class CheckedOutBookController : Controller
     {
        public async Task<IActionResult> Index()
         {
@@ -15,7 +15,7 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var checkedoutBook = await _context.CheckedOutBooks
+            var checkedoutBook = await _context.CheckedOutBook
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (checkedoutBook == null)
             {
@@ -33,7 +33,7 @@ namespace YardView.Controllers
                 return NotFound();
             }
 
-            var checkedoutBook = await _context.CheckedOutBooks.FindAsync(id);
+            var checkedoutBook = await _context.CheckedOutBook.FindAsync(id);
             if (checkedoutBook == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace YardView.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,UserId,Book,User,CheckoutDate")] CheckedOutBooks checkedoutBook)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,UserId,Book,User,CheckoutDate")] CheckedOutBook checkedoutBook)
         {
             if (id != checkedoutBook.Id)
             {
@@ -60,7 +60,7 @@ namespace YardView.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(checkedoutBook.Id))
+                    if (!CheckedOutBookExists(checkedoutBook.Id))
                     {
                         return NotFound();
                     }

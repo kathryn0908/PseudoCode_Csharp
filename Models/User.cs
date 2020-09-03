@@ -11,7 +11,7 @@ namespace YardView.Models
         public string Email { get; set; }
 
         public string Password { get; set; }
-        public virtual ICollection<CheckedOutBooks> CheckedOutBook { get; set; }
+        public virtual ICollection<CheckedOutBook> CheckedOutBooks { get; set; }
         
     }
 }

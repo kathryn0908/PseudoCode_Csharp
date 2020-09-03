@@ -1,6 +1,6 @@
 namespace YardView.Controllers
 {
-    public class BooksController : Controller
+    public class BookController : Controller
     {
        public async Task<IActionResult> Index(string BookGenre, string BookPublishDate, string searchString)
         {

@@ -10,7 +10,7 @@ namespace YardView.Models
 
         public string Genre { get; set; }
 
-        public virtual ICollection<CheckedOutBooks> CheckedOutBook { get; set; }
+        public virtual ICollection<CheckedOutBook> CheckedOutBooks { get; set; }
         
     }
 }

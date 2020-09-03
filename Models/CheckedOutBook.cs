@@ -2,7 +2,7 @@
 
 namespace YardView.Models 
 {
-    public class CheckedOutBooks
+    public class CheckedOutBook
     {
         public int BookId { get; set; }
         public int UserId { get; set; }
