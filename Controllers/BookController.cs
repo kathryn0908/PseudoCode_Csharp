@@ -75,7 +75,7 @@ namespace YardView.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,Author,Genre")] Book book)
+        public ActionResult Create([Bind(Include = "Title,Author,Genre,PublishDate")] Book book)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace YardView.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Author,Genre")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Author,Genre,PublishDate")] Book book)
         {
             if (id != book.Id)
             {

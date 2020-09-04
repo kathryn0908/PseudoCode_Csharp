@@ -10,6 +10,10 @@ namespace YardView.Models
 
         public string Genre { get; set; }
 
+        [Display(Name = "Publish Date")]
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; }
+
         public virtual ICollection<CheckedOutBook> CheckedOutBooks { get; set; }
         
     }

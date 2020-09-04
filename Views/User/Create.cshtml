@@ -1,3 +1,9 @@
+@model YardView.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
 <% using (Html.BeginForm()) {%>
     <%: Html.ValidationSummary(true) %>
 
